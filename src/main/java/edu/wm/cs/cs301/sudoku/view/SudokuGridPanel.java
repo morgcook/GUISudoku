@@ -11,10 +11,12 @@ public class SudokuGridPanel extends JPanel {
     private final Rectangle[][] grid;
 
     public SudokuGridPanel(int width) {
-        this.numWidth = 32;
+        this.numWidth = width / 9;
 
         this.setPreferredSize(new Dimension(width, width));
 
+        // The Sudoku grid code primarily references similar code
+        //  in the previous Wordle project.
         this.grid = calculateRectangles();
     }
 

@@ -12,8 +12,11 @@ public class SudokuFrame {
 
     private final SudokuGridPanel sudokuGrid;
 
+    private final KeyboardPanel keyboard;
+
     public SudokuFrame() {
         this.sudokuGrid = new SudokuGridPanel(500);
+        this.keyboard = new KeyboardPanel();
         this.frame = createAndShowGUI();
     }
 
@@ -30,6 +33,7 @@ public class SudokuFrame {
         });
 
         frame.add(sudokuGrid, BorderLayout.CENTER);
+        frame.add(keyboard.getPanel(), BorderLayout.SOUTH);
 
         frame.pack();
         frame.setLocationByPlatform(true);
