@@ -2,6 +2,7 @@ package edu.wm.cs.cs301.sudoku.model;
 
 import edu.wm.cs.cs301.sudoku.view.SudokuFrame;
 
+import java.awt.*;
 import java.util.*;
 
 public class SudokuPuzzle {
@@ -15,13 +16,16 @@ public class SudokuPuzzle {
     // the solution to the current puzzle
     private final int[][] solution = new int[NUM_ROWS][NUM_COLS];
 
+    // the response 2D array to visualize the grid
+    private final SudokuResponse[][] grid = new SudokuResponse[NUM_ROWS][NUM_COLS];
+
     // Hash Map that maps row/column labels to their respective indices
     private final Map<Character, Integer> map = new HashMap<>();
 
     private int counter = 0;
     private int attempts = 1;
 
-    public SudokuPuzzle(SudokuFrame view) {
+    public SudokuPuzzle() {
         // Creates lookup table for labels to indices
         String chars = "abcdefghi";
         for (int i = 0; i < chars.length(); i++) {
@@ -32,6 +36,13 @@ public class SudokuPuzzle {
         deepCopy2D(solution, original);
         createPuzzle();
         deepCopy2D(original, current);
+        for (int i = 0; i < NUM_ROWS; i++) {
+            for (int j = 0; j < NUM_COLS; j++) {
+                if (original[i][j] != 0) {
+                    grid[i][j] = new SudokuResponse(original[i][j], Color.LIGHT_GRAY);
+                }
+            }
+        }
     }
 
     public int[][] getCurrent() {
@@ -41,6 +52,8 @@ public class SudokuPuzzle {
     public int[][] getSolution() {
         return solution;
     }
+
+    public SudokuResponse[][] getGrid() { return grid; }
 
     // prints the 2d array of the inputted board, with the option of colored user-inputs
     public void printPuzzle(int[][] board, boolean color) {
@@ -177,8 +190,8 @@ public class SudokuPuzzle {
         int row = map.getOrDefault(values[0].toLowerCase().charAt(0), -1);
         int col = map.getOrDefault(values[1].toLowerCase().charAt(0), -1);
 
-        // checks if number input is an integer
-        if (!Character.isDigit(values[2].charAt(0))) {
+        // checks if number input is an integer and if original square is free
+        if (!Character.isDigit(values[2].charAt(0)) || original[row][col] != 0) {
             return false;
         }
 
@@ -186,8 +199,10 @@ public class SudokuPuzzle {
 
         // checks if the move is valid by sudoku rules and is not overwriting an original square
         //  and updates current board if it is a valid move
-        if (original[row][col] == 0 && (num == 0 || isSafe(current, row, col, num))) {
+        if (original[row][col] == 0 && isSafe(current, row, col, num)) {
             current[row][col] = num;
+            grid[row][col] = num == 0 ? null : new SudokuResponse(num, Color.WHITE);
+
             return true;
         }
 
@@ -197,7 +212,7 @@ public class SudokuPuzzle {
     // checks if move is valid by sudoku rules and by making sure inputs are within the correct bounds
     public static boolean isSafe(int[][] board, int row, int col, int num) {
         for (int x = 0; x < NUM_ROWS; x++) {
-            if (row == -1 || col == -1 || num < 0 || num > 9 || board[row][x] == num || board[x][col] == num
+            if (num != 0 && row == -1 || col == -1 || num < 0 || num > 9 || board[row][x] == num || board[x][col] == num
                     || board[row - row % 3 + x / 3][col - col % 3 + x % 3] == num) {
                 return false;
             }

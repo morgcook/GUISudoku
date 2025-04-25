@@ -1,5 +1,7 @@
 package edu.wm.cs.cs301.sudoku.view;
 
+import edu.wm.cs.cs301.sudoku.model.SudokuPuzzle;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,12 +12,15 @@ import java.awt.event.WindowEvent;
 public class SudokuFrame {
     private final JFrame frame;
 
+    private SudokuPuzzle model;
+
     private final SudokuGridPanel sudokuGrid;
 
     private final KeyboardPanel keyboard;
 
-    public SudokuFrame() {
-        this.sudokuGrid = new SudokuGridPanel(500);
+    public SudokuFrame(SudokuPuzzle model) {
+        this.model = model;
+        this.sudokuGrid = new SudokuGridPanel(model, 500);
         this.keyboard = new KeyboardPanel();
         this.frame = createAndShowGUI();
     }
