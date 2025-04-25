@@ -8,15 +8,19 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class SudokuFrame {
-    private JFrame frame;
+    private final JFrame frame;
+
+    private final SudokuGridPanel sudokuGrid;
 
     public SudokuFrame() {
+        this.sudokuGrid = new SudokuGridPanel(500);
         this.frame = createAndShowGUI();
     }
 
     private JFrame createAndShowGUI() {
         JFrame frame = new JFrame("Sudoku");
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.setJMenuBar(createMenuBar());
         frame.setResizable(false);
         frame.addWindowListener(new WindowAdapter() {
             @Override
@@ -25,9 +29,10 @@ public class SudokuFrame {
             }
         });
 
-        frame.setJMenuBar(createMenuBar());
+        frame.add(sudokuGrid, BorderLayout.CENTER);
 
         frame.pack();
+        frame.setLocationByPlatform(true);
         frame.setVisible(true);
 
         return frame;
