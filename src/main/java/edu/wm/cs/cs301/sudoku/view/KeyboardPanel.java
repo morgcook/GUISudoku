@@ -5,19 +5,20 @@ import edu.wm.cs.cs301.sudoku.model.SudokuPuzzle;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 public class KeyboardPanel extends JPanel {
     private final SudokuFrame view;
-
     private final SudokuPuzzle model;
-
     private final KeyboardButtonAction action;
+
+    private final JPanel panel;
 
     private final JButton[] buttons;
 
     private int buttonIndex = 0;
 
-    private final JPanel panel;
+    private final String[] letters = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "x"};
 
     public KeyboardPanel(SudokuFrame view, SudokuPuzzle model) {
         this.view = view;
@@ -29,18 +30,27 @@ public class KeyboardPanel extends JPanel {
 
     private JPanel createMainPanel() {
         JPanel panel = new JPanel(new GridLayout(2, 5));
-        for (int i = 1; i <= 9; i++) {
-            JButton b = new JButton(String.valueOf(i));
+        for (String letter : letters) {
+            JButton b = new JButton(letter);
+            setKeyBinding(b, letter);
             b.addActionListener(action);
             buttons[buttonIndex++] = b;
             panel.add(b);
         }
-        JButton x = new JButton("x");
-        x.addActionListener(action);
-        buttons[buttonIndex] = x;
-        panel.add(x);
 
         return panel;
+    }
+
+    private void setKeyBinding(JButton button, String text) {
+        InputMap inputMap = button.getInputMap(JButton.WHEN_IN_FOCUSED_WINDOW);
+        if (text.equals("x")) {
+            inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0),
+                    "action");
+        } else {
+            inputMap.put(KeyStroke.getKeyStroke(text), "action");
+        }
+        ActionMap actionMap = button.getActionMap();
+        actionMap.put("action", action);
     }
 
     public JPanel getPanel() {

@@ -20,6 +20,7 @@ public class SudokuFrame {
         this.model = model;
         this.sudokuGrid = new SudokuGridPanel(model, 50);
         this.sudokuGrid.addMouseListener(new GridMouseAdapter(this));
+        addKeyBindings();
         this.keyboard = new KeyboardPanel(this, model);
         this.frame = createAndShowGUI();
     }
@@ -68,6 +69,59 @@ public class SudokuFrame {
         menuBar.add(quitItem);
 
         return menuBar;
+    }
+
+    private void addKeyBindings() {
+        InputMap inputMap = sudokuGrid.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = sudokuGrid.getActionMap();
+
+        inputMap.put(KeyStroke.getKeyStroke("UP")   , "up");
+        actionMap.put("up", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int[] selected = sudokuGrid.getSelected();
+                if (selected[0] > 0) {
+                    sudokuGrid.setSelected(new int[]{selected[0] - 1, selected[1]});
+                    repaintSudokuGrid();
+                }
+            }
+        });
+
+        inputMap.put(KeyStroke.getKeyStroke("DOWN") , "down");
+        actionMap.put("down", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int[] selected = sudokuGrid.getSelected();
+                if (selected[0] < 8) {
+                    sudokuGrid.setSelected(new int[]{selected[0] + 1, selected[1]});
+                    repaintSudokuGrid();
+                }
+            }
+        });
+
+        inputMap.put(KeyStroke.getKeyStroke("LEFT") , "left");
+        actionMap.put("left", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int[] selected = sudokuGrid.getSelected();
+                if (selected[1] > 0) {
+                    sudokuGrid.setSelected(new int[]{selected[0], selected[1] - 1});
+                    repaintSudokuGrid();
+                }
+            }
+        });
+
+        inputMap.put(KeyStroke.getKeyStroke("RIGHT"), "right");
+        actionMap.put("right", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int[] selected = sudokuGrid.getSelected();
+                if (selected[1] < 8) {
+                    sudokuGrid.setSelected(new int[]{selected[0], selected[1] + 1});
+                    repaintSudokuGrid();
+                }
+            }
+        });
     }
 
     public void shutdown() {
