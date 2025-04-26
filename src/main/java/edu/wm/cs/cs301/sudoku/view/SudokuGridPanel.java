@@ -6,7 +6,11 @@ import edu.wm.cs.cs301.sudoku.model.SudokuResponse;
 import javax.swing.*;
 import java.awt.*;
 
+// Much of the code for the visualization of the SudokuGridPanel
+//   is derived from the previous WordleGridPanel implementation
 public class SudokuGridPanel extends JPanel {
+    private final int MARGIN = 10;
+
     private final SudokuPuzzle model;
 
     private final int width;
@@ -19,7 +23,7 @@ public class SudokuGridPanel extends JPanel {
         this.model = model;
         this.width = width;
 
-        this.setPreferredSize(new Dimension(width*9, width*9));
+        this.setPreferredSize(new Dimension(width * 9 + 2 * MARGIN, width * 9 + 2 * MARGIN));
 
         for (int i = 0; i < 9; i++) {
             if (model.getGrid()[0][i] == null) {
@@ -28,23 +32,21 @@ public class SudokuGridPanel extends JPanel {
             }
         }
 
-        // The Sudoku grid code primarily references similar code
-        //  in the previous Wordle project.
         this.grid = calculateRectangles();
     }
 
     private Rectangle[][] calculateRectangles() {
         Rectangle[][] grid = new Rectangle[9][9];
 
-        int x = 0;
-        int y = 0;
+        int x = MARGIN;
+        int y = MARGIN;
 
         for (int row = 0; row < 9; row++) {
             for (int col = 0; col < 9; col++) {
                 grid[row][col] = new Rectangle(x, y, width, width);
                 x += width;
             }
-            x = 0;
+            x = MARGIN;
             y += width;
         }
 
@@ -57,6 +59,11 @@ public class SudokuGridPanel extends JPanel {
 
         Graphics2D g2d = (Graphics2D) g;
 
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
         SudokuResponse[][] sudokuGrid = model.getGrid();
         for (int row = 0; row < grid.length; row++) {
             for (int col = 0; col < grid[row].length; col++) {
@@ -68,9 +75,10 @@ public class SudokuGridPanel extends JPanel {
                 } else {
                     drawResponse(g2d, response, r);
                 }
-                drawOutline(g2d, r);
+                drawRectangleOutline(g2d, r);
             }
         }
+        drawMajorOutline(g2d);
     }
 
     private void drawResponse(Graphics2D g2d, SudokuResponse response, Rectangle r) {
@@ -79,22 +87,43 @@ public class SudokuGridPanel extends JPanel {
             g2d.fillRect(r.x, r.y, r.width, r.height);
             g2d.setColor(Color.BLACK);
             if (response.getValue() != 0) {
-                g2d.drawString(String.valueOf(response.getValue()), r.x + r.width / 2, r.y + r.height / 2);
+                drawNumber(g2d, r, String.valueOf(response.getValue()));
             }
         }
     }
 
-    private void drawOutline(Graphics2D g2d, Rectangle r) {
+    private void drawRectangleOutline(Graphics2D g2d, Rectangle r) {
         int x = r.x;
         int y = r.y;
         int width = r.width;
         int height = r.height;
-        g2d.setColor(Color.BLACK);
+        g2d.setColor(Color.GRAY);
         g2d.setStroke(new BasicStroke(1f));
-        g2d.drawLine(x, y, x + width, y);
-        g2d.drawLine(x, y + height, x + width, y + height);
-        g2d.drawLine(x, y, x, y + height);
-        g2d.drawLine(x + width, y, x + width, y + height);
+        g2d.drawRect(x, y, width, height);
+    }
+
+    private void drawMajorOutline(Graphics2D g2d) {
+        // Separating subsquares
+        g2d.setColor(Color.GRAY);
+        g2d.setStroke(new BasicStroke(5));
+        g2d.drawLine(MARGIN + width * 3, MARGIN, MARGIN + width * 3, MARGIN + width * 9);
+        g2d.drawLine(MARGIN + width * 6, MARGIN, MARGIN + width * 6, MARGIN + width * 9);
+        g2d.drawLine(MARGIN, MARGIN + width * 3, MARGIN + width * 9, MARGIN + width * 3);
+        g2d.drawLine(MARGIN, MARGIN + width * 6, MARGIN + width * 9, MARGIN + width * 6);
+        // Outline around entire grid
+        g2d.setColor(Color.BLACK);
+        g2d.setStroke(new BasicStroke(5));
+        g2d.drawRect(MARGIN, MARGIN, width * 9, width * 9);
+    }
+
+    private void drawNumber(Graphics2D g2d, Rectangle r, String text) {
+        Font font = new Font("Dialog", Font.BOLD, 34);
+        FontMetrics fontMetrics = g2d.getFontMetrics(font);
+        int x = r.x + (r.width - fontMetrics.stringWidth(text)) / 2;
+        int y = r.y + ((r.height - fontMetrics.getHeight()) / 2)
+                + fontMetrics.getAscent();
+        g2d.setFont(font);
+        g2d.drawString(text, x, y);
     }
 
     public int[] getSelected() {
