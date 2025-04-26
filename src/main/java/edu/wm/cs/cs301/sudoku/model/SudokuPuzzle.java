@@ -185,20 +185,18 @@ public class SudokuPuzzle {
     public boolean makeMove(int row, int col, int num) {
         // checks if the move is valid by sudoku rules and is not overwriting an original square
         //  and updates current board if it is a valid move
-        if (original[row][col] == 0 && isSafe(current, row, col, num)) {
+        if (original[row][col] == 0 && (num == 0 || isSafe(current, row, col, num))) {
             current[row][col] = num;
             grid[row][col] = num == 0 ? null : new SudokuResponse(num, Color.WHITE);
-
             return true;
         }
-
         return false;
     }
 
     // checks if move is valid by sudoku rules and by making sure inputs are within the correct bounds
-    public static boolean isSafe(int[][] board, int row, int col, int num) {
+    private static boolean isSafe(int[][] board, int row, int col, int num) {
         for (int x = 0; x < NUM_ROWS; x++) {
-            if (num != 0 && row == -1 || col == -1 || num < 0 || num > 9 || board[row][x] == num || board[x][col] == num
+            if (row == -1 || col == -1 || num < 0 || num > 9 || board[row][x] == num || board[x][col] == num
                     || board[row - row % 3 + x / 3][col - col % 3 + x % 3] == num) {
                 return false;
             }

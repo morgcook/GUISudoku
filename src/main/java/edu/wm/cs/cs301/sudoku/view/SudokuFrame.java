@@ -20,7 +20,7 @@ public class SudokuFrame {
         this.model = model;
         this.sudokuGrid = new SudokuGridPanel(model, 50);
         this.sudokuGrid.addMouseListener(new GridMouseAdapter(this));
-        this.keyboard = new KeyboardPanel();
+        this.keyboard = new KeyboardPanel(this, model);
         this.frame = createAndShowGUI();
     }
 

@@ -7,8 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class SudokuGridPanel extends JPanel {
-    private static final long serialVersionUID = 1L;
-
     private final SudokuPuzzle model;
 
     private final int width;
@@ -97,6 +95,10 @@ public class SudokuGridPanel extends JPanel {
         g2d.drawLine(x, y + height, x + width, y + height);
         g2d.drawLine(x, y, x, y + height);
         g2d.drawLine(x + width, y, x + width, y + height);
+    }
+
+    public int[] getSelected() {
+        return selected;
     }
 
     public void setSelected(int[] selected) {
