@@ -1,7 +1,5 @@
 package edu.wm.cs.cs301.sudoku.model;
 
-import edu.wm.cs.cs301.sudoku.view.SudokuFrame;
-
 import java.awt.*;
 import java.util.*;
 
@@ -19,19 +17,10 @@ public class SudokuPuzzle {
     // the response 2D array to visualize the grid
     private final SudokuResponse[][] grid = new SudokuResponse[NUM_ROWS][NUM_COLS];
 
-    // Hash Map that maps row/column labels to their respective indices
-    private final Map<Character, Integer> map = new HashMap<>();
-
     private int counter = 0;
     private int attempts = 1;
 
     public SudokuPuzzle() {
-        // Creates lookup table for labels to indices
-        String chars = "abcdefghi";
-        for (int i = 0; i < chars.length(); i++) {
-            map.put(chars.charAt(i), i);
-        }
-
         fillGrid(solution);
         deepCopy2D(solution, original);
         createPuzzle();
@@ -43,6 +32,8 @@ public class SudokuPuzzle {
                 }
             }
         }
+        System.out.println("DEBUG:");
+        printPuzzle(solution, true);
     }
 
     public int[][] getOriginal() {
@@ -205,8 +196,8 @@ public class SudokuPuzzle {
     }
 
     // checks if board is full (completed)
-    public boolean isFull(int[][] board) {
-        for (int[] row : board) {
+    public boolean isFull() {
+        for (int[] row : current) {
             for (int val : row) {
                 if (val == 0) {
                     return false;
