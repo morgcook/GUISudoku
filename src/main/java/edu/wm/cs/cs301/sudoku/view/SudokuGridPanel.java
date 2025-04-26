@@ -11,15 +11,24 @@ public class SudokuGridPanel extends JPanel {
 
     private final SudokuPuzzle model;
 
-    private final int numWidth;
+    private final int width;
 
     private final Rectangle[][] grid;
 
+    private int[] selected;
+
     public SudokuGridPanel(SudokuPuzzle model, int width) {
         this.model = model;
-        this.numWidth = width / 9;
+        this.width = width;
 
-        this.setPreferredSize(new Dimension(width, width));
+        this.setPreferredSize(new Dimension(width*9, width*9));
+
+        for (int i = 0; i < 9; i++) {
+            if (model.getGrid()[0][i] == null) {
+                selected = new int[]{0, i};
+                break;
+            }
+        }
 
         // The Sudoku grid code primarily references similar code
         //  in the previous Wordle project.
@@ -34,11 +43,11 @@ public class SudokuGridPanel extends JPanel {
 
         for (int row = 0; row < 9; row++) {
             for (int col = 0; col < 9; col++) {
-                grid[row][col] = new Rectangle(x, y, numWidth, numWidth);
-                x += numWidth;
+                grid[row][col] = new Rectangle(x, y, width, width);
+                x += width;
             }
             x = 0;
-            y += numWidth;
+            y += width;
         }
 
         return grid;
@@ -55,7 +64,12 @@ public class SudokuGridPanel extends JPanel {
             for (int col = 0; col < grid[row].length; col++) {
                 Rectangle r = grid[row][col];
                 SudokuResponse response = sudokuGrid[row][col];
-                drawResponse(g2d, response, r);
+                if (row == selected[0] && col == selected[1]) {
+                    int n = response == null ? 0 : response.getValue();
+                    drawResponse(g2d, new SudokuResponse(n, Color.ORANGE), r);
+                } else {
+                    drawResponse(g2d, response, r);
+                }
                 drawOutline(g2d, r);
             }
         }
@@ -66,7 +80,9 @@ public class SudokuGridPanel extends JPanel {
             g2d.setColor(response.getBackground());
             g2d.fillRect(r.x, r.y, r.width, r.height);
             g2d.setColor(Color.BLACK);
-            g2d.drawString(String.valueOf(response.getValue()), r.x+r.width/2, r.y+r.height/2);
+            if (response.getValue() != 0) {
+                g2d.drawString(String.valueOf(response.getValue()), r.x + r.width / 2, r.y + r.height / 2);
+            }
         }
     }
 
@@ -81,5 +97,9 @@ public class SudokuGridPanel extends JPanel {
         g2d.drawLine(x, y + height, x + width, y + height);
         g2d.drawLine(x, y, x, y + height);
         g2d.drawLine(x + width, y, x + width, y + height);
+    }
+
+    public void setSelected(int[] selected) {
+        this.selected = selected;
     }
 }

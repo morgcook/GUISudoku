@@ -1,13 +1,11 @@
 package edu.wm.cs.cs301.sudoku.view;
 
+import edu.wm.cs.cs301.sudoku.controller.GridMouseAdapter;
 import edu.wm.cs.cs301.sudoku.model.SudokuPuzzle;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 
 public class SudokuFrame {
     private final JFrame frame;
@@ -20,7 +18,8 @@ public class SudokuFrame {
 
     public SudokuFrame(SudokuPuzzle model) {
         this.model = model;
-        this.sudokuGrid = new SudokuGridPanel(model, 500);
+        this.sudokuGrid = new SudokuGridPanel(model, 50);
+        this.sudokuGrid.addMouseListener(new GridMouseAdapter(this));
         this.keyboard = new KeyboardPanel();
         this.frame = createAndShowGUI();
     }
@@ -72,5 +71,13 @@ public class SudokuFrame {
 
     public JFrame getFrame() {
         return this.frame;
+    }
+
+    public SudokuGridPanel getSudokuGrid() {
+        return sudokuGrid;
+    }
+
+    public void repaintSudokuGrid() {
+        sudokuGrid.repaint();
     }
 }

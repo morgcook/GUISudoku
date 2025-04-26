@@ -45,6 +45,10 @@ public class SudokuPuzzle {
         }
     }
 
+    public int[][] getOriginal() {
+        return original;
+    }
+
     public int[][] getCurrent() {
         return current;
     }
