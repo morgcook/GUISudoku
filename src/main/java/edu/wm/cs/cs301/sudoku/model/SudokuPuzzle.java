@@ -182,25 +182,7 @@ public class SudokuPuzzle {
     }
 
     // function for the execution of valid moves
-    public boolean makeMove(String input) {
-        String[] values = input.split(" ");
-
-        // check if input is of "x x x" format
-        if (input.length() != 5 || values.length != 3) {
-            return false;
-        }
-
-        // get row and column index from character input
-        int row = map.getOrDefault(values[0].toLowerCase().charAt(0), -1);
-        int col = map.getOrDefault(values[1].toLowerCase().charAt(0), -1);
-
-        // checks if number input is an integer and if original square is free
-        if (!Character.isDigit(values[2].charAt(0)) || original[row][col] != 0) {
-            return false;
-        }
-
-        int num = Integer.parseInt(values[2]);
-
+    public boolean makeMove(int row, int col, int num) {
         // checks if the move is valid by sudoku rules and is not overwriting an original square
         //  and updates current board if it is a valid move
         if (original[row][col] == 0 && isSafe(current, row, col, num)) {
