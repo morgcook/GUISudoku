@@ -54,7 +54,13 @@ public class SudokuFrame {
         menuBar.add(instructionsItem);
 
         JMenuItem newGameItem = new JMenuItem("New Game");
-        //newGameItem.addActionListener(); future implementation
+        newGameItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                model.initialize();
+                repaintSudokuGrid();
+            }
+        });
         menuBar.add(newGameItem);
 
         JMenuItem quitItem = new JMenuItem("Quit");

@@ -6,34 +6,23 @@ import java.util.*;
 public class SudokuPuzzle {
     public static final int NUM_ROWS = 9;
     public static final int NUM_COLS = 9;
+    private final int ATTEMPTS = 1;
 
     // the original version of the puzzle excluding valid player moves
-    private final int[][] original = new int[NUM_ROWS][NUM_COLS];
+    private int[][] original = new int[NUM_ROWS][NUM_COLS];
     // the current version of the puzzle including valid player moves
-    private final int[][] current = new int[NUM_ROWS][NUM_COLS];
+    private int[][] current = new int[NUM_ROWS][NUM_COLS];
     // the solution to the current puzzle
-    private final int[][] solution = new int[NUM_ROWS][NUM_COLS];
+    private int[][] solution = new int[NUM_ROWS][NUM_COLS];
 
     // the response 2D array to visualize the grid
-    private final SudokuResponse[][] grid = new SudokuResponse[NUM_ROWS][NUM_COLS];
+    private SudokuResponse[][] grid = new SudokuResponse[NUM_ROWS][NUM_COLS];
 
     private int counter = 0;
-    private int attempts = 1;
+    private int attempts = ATTEMPTS;
 
     public SudokuPuzzle() {
-        fillGrid(solution);
-        deepCopy2D(solution, original);
-        createPuzzle();
-        deepCopy2D(original, current);
-        for (int i = 0; i < NUM_ROWS; i++) {
-            for (int j = 0; j < NUM_COLS; j++) {
-                if (original[i][j] != 0) {
-                    grid[i][j] = new SudokuResponse(original[i][j], Color.LIGHT_GRAY);
-                }
-            }
-        }
-        System.out.println("DEBUG:");
-        printPuzzle(solution, true);
+        initialize();
     }
 
     public int[][] getOriginal() {
@@ -49,6 +38,24 @@ public class SudokuPuzzle {
     }
 
     public SudokuResponse[][] getGrid() { return grid; }
+
+    public void initialize() {
+        solution = new int[NUM_ROWS][NUM_COLS];
+        grid = new SudokuResponse[NUM_ROWS][NUM_COLS];
+        attempts = ATTEMPTS;
+
+        fillGrid(solution);
+        deepCopy2D(solution, original);
+        createPuzzle();
+        deepCopy2D(original, current);
+        for (int i = 0; i < NUM_ROWS; i++) {
+            for (int j = 0; j < NUM_COLS; j++) {
+                if (original[i][j] != 0) {
+                    grid[i][j] = new SudokuResponse(original[i][j], Color.LIGHT_GRAY);
+                }
+            }
+        }
+    }
 
     // prints the 2d array of the inputted board, with the option of colored user-inputs
     public void printPuzzle(int[][] board, boolean color) {

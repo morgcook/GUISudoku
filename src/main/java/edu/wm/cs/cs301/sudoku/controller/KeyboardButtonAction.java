@@ -36,6 +36,6 @@ public class KeyboardButtonAction extends AbstractAction {
 
         // if the grid is full, then the user has won and the
         //  completion dialog will appear
-        if (model.isFull()) new CompletionDialog(view);
+        if (model.isFull()) new CompletionDialog(view, model);
     }
 }
