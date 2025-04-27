@@ -9,6 +9,8 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class KeyboardPanel extends JPanel {
+    private final int MARGIN = 10;
+
     private final SudokuFrame view;
     private final SudokuPuzzle model;
     private final KeyboardButtonAction action;
@@ -31,7 +33,7 @@ public class KeyboardPanel extends JPanel {
 
     private JPanel createMainPanel() {
         JPanel panel = new JPanel(new GridLayout(2, 5));
-        panel.setBorder(new EmptyBorder(0, 10, 10, 10));
+        panel.setBorder(new EmptyBorder(MARGIN/2, MARGIN, MARGIN, MARGIN));
         for (String letter : letters) {
             JButton b = createButton(letter);
             buttons[buttonIndex++] = b;

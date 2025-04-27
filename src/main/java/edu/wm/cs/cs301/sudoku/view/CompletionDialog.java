@@ -3,6 +3,7 @@ package edu.wm.cs.cs301.sudoku.view;
 import edu.wm.cs.cs301.sudoku.model.SudokuPuzzle;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,7 +13,7 @@ public class CompletionDialog extends JDialog {
     private final SudokuPuzzle model;
 
     public CompletionDialog(SudokuFrame view, SudokuPuzzle model) {
-        super(view.getFrame(), "", true);
+        super(view.getFrame(), "Congratualtions", true);
 
         this.view = view;
         this.model = model;
@@ -27,35 +28,52 @@ public class CompletionDialog extends JDialog {
 
     private JPanel mainTextPanel() {
         JPanel panel = new JPanel();
-        panel.add(new JLabel("Congrats!"));
+        panel.setBorder(new EmptyBorder(0, 10, 0, 10));
+        JLabel label = new JLabel("You Win!");
+        label.setFont(new Font("Dialog", Font.BOLD, 36));
+        panel.add(label);
         return panel;
     }
 
     private JPanel buttonPanel() {
-        JPanel panel = new JPanel(new GridLayout(1, 2));
+        JPanel panel = new JPanel(new FlowLayout());
 
-        JButton quitButton = new JButton("Quit");
-        quitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                view.shutdown();
-            }
-        });
+        JButton playButton = getButton("Play again");
+        playButton.addActionListener(new PlayAction());
 
-        JButton playButton = new JButton("Play again");
-        playButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                model.initialize();
-                view.repaintSudokuGrid();
-            }
-        });
+        JButton quitButton = getButton("Quit");
+        quitButton.addActionListener(new QuitAction());
 
-        panel.add(quitButton);
         panel.add(playButton);
+        panel.add(quitButton);
 
         return panel;
+    }
+
+    private JButton getButton(String text) {
+        JButton b = new JButton(text);
+        b.setFocusPainted(false);
+        b.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        b.setPreferredSize(new Dimension(100, 30));
+        b.setBackground(Color.LIGHT_GRAY);
+        b.setFont(new Font("Dialog", Font.BOLD, 15));
+        return b;
+    }
+
+    private class QuitAction extends AbstractAction {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            dispose();
+            view.shutdown();
+        }
+    }
+
+    private class PlayAction extends AbstractAction {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            dispose();
+            model.initialize();
+            view.repaintSudokuGrid();
+        }
     }
 }
