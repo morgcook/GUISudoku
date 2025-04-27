@@ -25,7 +25,7 @@ public class KeyboardButtonAction extends AbstractAction {
         boolean changed;
 
         // when the user wants to delete a square, 0 is used as input
-        if (text.equals("x")) {
+        if (text.equals("X")) {
             changed = model.makeMove(selected[0], selected[1], 0);
         // otherwise, make move using the specified number
         } else {

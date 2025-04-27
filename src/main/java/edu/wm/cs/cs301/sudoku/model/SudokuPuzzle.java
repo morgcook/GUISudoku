@@ -7,6 +7,7 @@ public class SudokuPuzzle {
     public static final int NUM_ROWS = 9;
     public static final int NUM_COLS = 9;
     private final int ATTEMPTS = 1;
+    private final Color BACKGROUND_COLOR = new Color(223, 223, 223);
 
     // the original version of the puzzle excluding valid player moves
     private int[][] original = new int[NUM_ROWS][NUM_COLS];
@@ -51,7 +52,7 @@ public class SudokuPuzzle {
         for (int i = 0; i < NUM_ROWS; i++) {
             for (int j = 0; j < NUM_COLS; j++) {
                 if (original[i][j] != 0) {
-                    grid[i][j] = new SudokuResponse(original[i][j], Color.LIGHT_GRAY);
+                    grid[i][j] = new SudokuResponse(original[i][j], BACKGROUND_COLOR);
                 }
             }
         }

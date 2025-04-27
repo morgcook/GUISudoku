@@ -89,6 +89,9 @@ public class SudokuGridPanel extends JPanel {
             if (response.getValue() != 0) {
                 drawNumber(g2d, r, String.valueOf(response.getValue()));
             }
+        } else {
+            g2d.setColor(Color.WHITE);
+            g2d.fillRect(r.x, r.y, r.width, r.height);
         }
     }
 
