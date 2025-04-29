@@ -6,6 +6,15 @@ import edu.wm.cs.cs301.sudoku.view.SudokuGridPanel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/* Not contained in the original UML diagram as it was planned
+     to be defined within the SudokuGridPanel class. When coding,
+     it felt more necessary to make an individual class.
+*/
+
+/**
+ *  This class handles the functionality of using the
+ *    mouse to select a square in the SudokuGridPanel.
+ */
 public class GridMouseAdapter extends MouseAdapter {
     private final SudokuFrame view;
 
@@ -13,6 +22,13 @@ public class GridMouseAdapter extends MouseAdapter {
         this.view = view;
     }
 
+    /**
+     *  Uses the mouse position to calculate what square in the
+     *    SudokuGridPanel the user is attempting to select, and
+     *    updates the "selected" variable and grid as necessary.
+     *
+     * @param e the event to be processed
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         SudokuGridPanel gridPanel = view.getSudokuGrid();

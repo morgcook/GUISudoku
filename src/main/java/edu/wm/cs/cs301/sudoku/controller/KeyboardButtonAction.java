@@ -7,6 +7,11 @@ import edu.wm.cs.cs301.sudoku.view.SudokuFrame;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
+/**
+ *  The observer class of each respective JButton contained
+ *    within the KeyboardPanel class. Handles the functionality
+ *    behind each button press.
+ */
 public class KeyboardButtonAction extends AbstractAction {
     private final SudokuFrame view;
 
@@ -17,6 +22,14 @@ public class KeyboardButtonAction extends AbstractAction {
         this.model = model;
     }
 
+    /**
+     * The method that controls the outcome of each button press,
+     *    putting or removing a number in a square assuming
+     *    the move is valid. Shows the congratulations dialog
+     *    when the board is filled.
+     *
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         JButton b = (JButton) e.getSource();

@@ -6,8 +6,11 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
+/**
+ * Creates the congratulations pop-up window upon
+ *    completing the puzzle.
+ */
 public class CompletionDialog extends JDialog {
     private final SudokuFrame view;
     private final SudokuPuzzle model;

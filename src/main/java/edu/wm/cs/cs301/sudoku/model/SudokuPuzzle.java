@@ -3,6 +3,11 @@ package edu.wm.cs.cs301.sudoku.model;
 import java.awt.*;
 import java.util.*;
 
+/**
+ *  This class holds all the functionality and logic for the puzzle itself,
+ *      storing the puzzle in SudokuResponse objects to allow for simple
+ *      interaction between the model and the view.
+ */
 public class SudokuPuzzle {
     public static final int NUM_ROWS = 9;
     public static final int NUM_COLS = 9;
@@ -10,11 +15,9 @@ public class SudokuPuzzle {
     private final Color BACKGROUND_COLOR = new Color(223, 223, 223);
 
     // the original version of the puzzle excluding valid player moves
-    private int[][] original = new int[NUM_ROWS][NUM_COLS];
+    private final int[][] original = new int[NUM_ROWS][NUM_COLS];
     // the current version of the puzzle including valid player moves
-    private int[][] current = new int[NUM_ROWS][NUM_COLS];
-    // the solution to the current puzzle
-    private int[][] solution = new int[NUM_ROWS][NUM_COLS];
+    private final int[][] current = new int[NUM_ROWS][NUM_COLS];
 
     // the response 2D array to visualize the grid
     private SudokuResponse[][] grid = new SudokuResponse[NUM_ROWS][NUM_COLS];
@@ -26,22 +29,16 @@ public class SudokuPuzzle {
         initialize();
     }
 
-    public int[][] getOriginal() {
-        return original;
-    }
-
-    public int[][] getCurrent() {
-        return current;
-    }
-
-    public int[][] getSolution() {
-        return solution;
-    }
-
     public SudokuResponse[][] getGrid() { return grid; }
 
+    /**
+     *  This method is used to get rid of the current puzzle and
+     *      replace it with a completely new puzzle. Fundamentally
+     *      a "reset" method.
+     */
     public void initialize() {
-        solution = new int[NUM_ROWS][NUM_COLS];
+        // the solution to the current puzzle
+        int[][] solution = new int[NUM_ROWS][NUM_COLS];
         grid = new SudokuResponse[NUM_ROWS][NUM_COLS];
         attempts = ATTEMPTS;
 
@@ -56,50 +53,6 @@ public class SudokuPuzzle {
                 }
             }
         }
-    }
-
-    // prints the 2d array of the inputted board, with the option of colored user-inputs
-    public void printPuzzle(int[][] board, boolean color) {
-        char[] rows = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'};
-        String hline = "  +-----------------------------+";
-        String vline = "  |         |         |         |";
-
-        // adds column labels
-        System.out.println("    A  B  C   D  E  F   G  H  I");
-
-
-        for (int i = 0; i < 9; i++) {
-            // separates every third item with a horizontal line
-            if (i % 3 == 0) {
-                System.out.println(hline);
-                System.out.println(vline);
-            }
-
-            // adds row labels
-            System.out.print(rows[i]);
-            for (int j = 0; j < 9; j++) {
-                // separates every third column with a vertical line
-                if (j % 3 == 0) {
-                    System.out.print(" | ");
-                } else {
-                    System.out.print("  ");
-                }
-                if (board[i][j] == 0) {
-                    System.out.print(" ");
-                } else {
-                    // if color print mode is true then user moves are highlighted
-                    if (board[i][j] == original[i][j] || !color) {
-                        System.out.print(board[i][j]);
-                    } else {
-                        System.out.print("\u001B[47m\u001B[30m" + board[i][j] + "\u001B[0m");
-                    }
-                }
-            }
-            System.out.println(" |");
-            System.out.println(vline);
-        }
-
-        System.out.println(hline);
     }
 
     // following three functions based on given pseudocode

@@ -7,10 +7,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * The main frame containing all the necessary visuals
+ *    for the puzzle. Contains the keyboard panel and
+ *    sudoku grid panel, as well as menu items.
+ */
+
 public class SudokuFrame {
     private final JFrame frame;
 
-    private SudokuPuzzle model;
+    private final SudokuPuzzle model;
 
     private final SudokuGridPanel sudokuGrid;
 
@@ -55,17 +61,14 @@ public class SudokuFrame {
         menuBar.add(instructionsItem);
 
         JMenuItem newGameItem = new JMenuItem("New Game");
-        newGameItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                model.initialize();
-                repaintSudokuGrid();
-            }
+        newGameItem.addActionListener(e -> {
+            model.initialize();
+            repaintSudokuGrid();
         });
         menuBar.add(newGameItem);
 
         JMenuItem quitItem = new JMenuItem("Quit");
-        quitItem.addActionListener(event -> shutdown());
+        quitItem.addActionListener(e -> shutdown());
         menuBar.add(quitItem);
 
         return menuBar;
@@ -124,9 +127,21 @@ public class SudokuFrame {
         });
     }
 
+    /**
+     * Closes the main window and
+     *    ends the program.
+     */
     public void shutdown() {
         frame.dispose();
         System.exit(0);
+    }
+
+    /**
+     *  Signals the sudoku grid panel to
+     *      repaint the grid
+     */
+    public void repaintSudokuGrid() {
+        sudokuGrid.repaint();
     }
 
     public JFrame getFrame() {
@@ -135,9 +150,5 @@ public class SudokuFrame {
 
     public SudokuGridPanel getSudokuGrid() {
         return sudokuGrid;
-    }
-
-    public void repaintSudokuGrid() {
-        sudokuGrid.repaint();
     }
 }

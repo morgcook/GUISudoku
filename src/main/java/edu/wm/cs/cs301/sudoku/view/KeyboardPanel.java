@@ -8,35 +8,28 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
+/**
+ * Contains the interactable buttons for the user to input numbers
+ *    using the mouse (and keyboard).
+ */
 public class KeyboardPanel extends JPanel {
-    private final int MARGIN = 10;
-
-    private final SudokuFrame view;
-    private final SudokuPuzzle model;
     private final KeyboardButtonAction action;
 
     private final JPanel panel;
 
-    private final JButton[] buttons;
-
-    private int buttonIndex = 0;
-
     private final String[] letters = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "X"};
 
     public KeyboardPanel(SudokuFrame view, SudokuPuzzle model) {
-        this.view = view;
-        this.model = model;
-        this.buttons = new JButton[10];
         this.action = new KeyboardButtonAction(view, model);
         this.panel = createMainPanel();
     }
 
     private JPanel createMainPanel() {
         JPanel panel = new JPanel(new GridLayout(2, 5));
-        panel.setBorder(new EmptyBorder(MARGIN/2, MARGIN, MARGIN, MARGIN));
+        int MARGIN = 10;
+        panel.setBorder(new EmptyBorder(MARGIN /2, MARGIN, MARGIN, MARGIN));
         for (String letter : letters) {
             JButton b = createButton(letter);
-            buttons[buttonIndex++] = b;
             panel.add(b);
         }
 

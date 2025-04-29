@@ -5,6 +5,10 @@ import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 
+/**
+ *  Creates the instructions pop-up window created by the
+ *      "instructions" menu item.
+ */
 public class InstructionsDialog extends JDialog {
     public InstructionsDialog(SudokuFrame view) {
         super(view.getFrame(), "Instructions", true);

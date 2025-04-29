@@ -6,8 +6,21 @@ import edu.wm.cs.cs301.sudoku.model.SudokuResponse;
 import javax.swing.*;
 import java.awt.*;
 
-// Much of the code for the visualization of the SudokuGridPanel
-//   is derived from the previous WordleGridPanel implementation
+/*
+    The original design of the class was composed of
+      JPanels and JLabels, but when coding it was more
+      simple to draw Rectangle objects, similar to the
+      WordleGridPanel.
+ */
+
+/**
+ *  The frame that contains the visuals for the puzzle itself,
+ *     using Rectangles and SudokuResponse objects to manually
+ *     draw the grid visuals.
+ * <p>
+ *   Much of the code is derived from the previous WordleGridPanel
+ *     class of the previous GUI Wordle project.
+ */
 public class SudokuGridPanel extends JPanel {
     private final int MARGIN = 10;
 
