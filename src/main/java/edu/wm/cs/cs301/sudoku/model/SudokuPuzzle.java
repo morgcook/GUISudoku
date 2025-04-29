@@ -18,6 +18,8 @@ public class SudokuPuzzle {
     private final int[][] original = new int[NUM_ROWS][NUM_COLS];
     // the current version of the puzzle including valid player moves
     private final int[][] current = new int[NUM_ROWS][NUM_COLS];
+    // the solution to the puzzle
+    private int[][] solution = new int[NUM_ROWS][NUM_COLS];
 
     // the response 2D array to visualize the grid
     private SudokuResponse[][] grid = new SudokuResponse[NUM_ROWS][NUM_COLS];
@@ -37,8 +39,6 @@ public class SudokuPuzzle {
      *      a "reset" method.
      */
     public void initialize() {
-        // the solution to the current puzzle
-        int[][] solution = new int[NUM_ROWS][NUM_COLS];
         grid = new SudokuResponse[NUM_ROWS][NUM_COLS];
         attempts = ATTEMPTS;
 
@@ -53,6 +53,14 @@ public class SudokuPuzzle {
                 }
             }
         }
+    }
+
+    public int[][] getCurrent() {
+        return current;
+    }
+
+    public int[][] getSolution() {
+        return current;
     }
 
     // following three functions based on given pseudocode
