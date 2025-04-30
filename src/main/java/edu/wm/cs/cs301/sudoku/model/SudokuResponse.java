@@ -2,12 +2,6 @@ package edu.wm.cs.cs301.sudoku.model;
 
 import java.awt.*;
 
-/*
-  Not contained in the UML design, but allowed
-    for smoother interaction between the model
-    and the view.
- */
-
 /**
  *  This class is used to organize number and color data to
  *    allow for easy distinction of squares contained in

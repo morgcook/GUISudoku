@@ -6,13 +6,6 @@ import edu.wm.cs.cs301.sudoku.model.SudokuResponse;
 import javax.swing.*;
 import java.awt.*;
 
-/*
-    The original design of the class was composed of
-      JPanels and JLabels, but when coding it was more
-      simple to draw Rectangle objects, similar to the
-      WordleGridPanel.
- */
-
 /**
  *  The frame that contains the visuals for the puzzle itself,
  *     using Rectangles and SudokuResponse objects to manually
